@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applicazione Contatti con Grafico</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <section class="section" x-data="{ activeTab: 'dashboard' }">
+    <div class="container">
+      <div class="columns">
+        <!-- Menù di navigazione a sinistra -->
+        <aside class="menu column is-2">
+          <p class="menu-label">Navigazione</p>
+          <ul class="menu-list">
+            <li><a href="#" @click.prevent="activeTab = 'dashboard'" :class="{'is-active': activeTab === 'dashboard'}">Dashboard</a></li>
+            <li><a href="#" @click.prevent="activeTab = 'contacts'" :class="{'is-active': activeTab === 'contacts'}">Elenco Contatti</a></li>
+          </ul>
+        </aside>
+
+        <!-- Sezione principale a destra -->
+        <div class="column is-10">
+          <!-- Dashboard -->
+          <div x-show="activeTab === 'dashboard'" x-init="renderChart()">
+            <h2 class="title is-4">Dashboard</h2>
+            <p>Benvenuto nella dashboard. Scegli un'opzione dal menù.</p>
+
+            <!-- Grafico a torta -->
+            <div class="box">
+              <h3 class="title is-5">Distribuzione Regionale</h3>
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Elenco Contatti -->
+          <div x-show="activeTab === 'contacts'">
+            <h2 class="title is-4">Elenco Contatti</h2>
+            <table class="table is-fullwidth is-striped">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Nome</th>
+                  <th>Cognome</th>
+                  <th>Città</th>
+                  <th>Regione</th>
+                  <th>LinkedIn</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Esempio di dati dei contatti -->
+                <tr>
+                  <td><figure class="image is-48x48"><img src="https://via.placeholder.com/48" alt="Foto"></figure></td>
+                  <td>Mario</td>
+                  <td>Rossi</td>
+                  <td>Roma</td>
+                  <td>Lazio</td>
+                  <td><a href="https://linkedin.com" target="_blank">LinkedIn</a></td>
+                </tr>
+                <tr>
+                  <td><figure class="image is-48x48"><img src="https://via.placeholder.com/48" alt="Foto"></figure></td>
+                  <td>Anna</td>
+                  <td>Bianchi</td>
+                  <td>Milano</td>
+                  <td>Lombardia</td>
+                  <td><a href="https://linkedin.com" target="_blank">LinkedIn</a></td>
+                </tr>
+                <!-- Altri contatti possono essere aggiunti qui -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function renderChart() {
+      const ctx = document.getElementById('pieChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Lazio', 'Lombardia', 'Campania', 'Sicilia'],
+          datasets: [{
+            label: 'Distribuzione Regionale',
+            data: [30, 25, 20, 25], // Dati di esempio
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(tooltipItem) {
+                  return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
