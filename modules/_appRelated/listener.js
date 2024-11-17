@@ -3,6 +3,8 @@ import './loadEnv.js';
 import express from 'express';
 import compression from 'compression';
 
+import contactsRouter from '../contacts/router.js';
+
 //import houseCleanRouter from '../houseClean/router/houseClean.js';
 
 global.production = false;
@@ -36,6 +38,6 @@ export const startListener = async (port = process.env.PORT) => {
 
     // app.get('/', (req, res) => { res.redirect(`/houseClean`);});
 
-    // app.use('/houseClean', houseCleanRouter);
+    app.use('/api/v1/contacts', contactsRouter);
 
 }
